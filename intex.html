@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopNest - Your Ultimate E-Commerce Destination</title>
+    <!-- Bootstrap 5 CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Base Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        /* Sticky Navigation Customizations */
+        .navbar {
+            transition: all 0.3s ease-in-out;
+        }
+        .search-form input {
+            border-radius: 20px;
+        }
+        .search-form button {
+            border-radius: 20px;
+        }
+
+        /* Hero Banner Styling */
+        .hero-banner {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=1600&q=80') no-repeat center center/cover;
+            min-height: 75vh;
+            background-color: #212529; /* Fallback */
+        }
+
+        /* Category Showcase Styling Fixes */
+        .category-box {
+            position: relative;
+            height: 220px;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+            padding: 20px;
+            text-decoration: none;
+            color: #ffffff !important;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .category-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            color: #ffffff !important;
+        }
+
+        .category-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 100%);
+            z-index: 1;
+        }
+
+        .category-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Category Specific Backgrounds - Fixed with explicit properties */
+        .cat-electronics {
+            background-image: linear-gradient(135deg, rgba(30, 60, 114, 0.8), rgba(42, 82, 152, 0.8)), url('https://images.unsplash.com/photo-1498049794561-7780e7231661?w=600&q=80');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .cat-clothing {
+            background-image: linear-gradient(135deg, rgba(233, 30, 99, 0.8), rgba(103, 58, 183, 0.8)), url('https://images.unsplash.com/photo-1445205170230-053b83016050?w=600&q=80');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .cat-footwear {
+            background-image: linear-gradient(135deg, rgba(255, 152, 0, 0.8), rgba(254, 87, 34, 0.8)), url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .cat-books {
+            background-image: linear-gradient(135deg, rgba(0, 150, 136, 0.8), rgba(63, 81, 181, 0.8)), url('https://images.unsplash.com/photo-1495640388908-05fa85288e61?w=600&q=80');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        /* Product Cards Styling */
+        .product-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #ffffff;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12) !important;
+        }
+        .product-img {
+            height: 220px;
+            object-fit: cover;
+            background-color: #e9ecef;
+        }
+
+        /* Footer Styling */
+        footer {
+            background-color: #121517 !important;
+            color: #dcdcdc;
+        }
+        footer h4, footer h5 {
+            color: #ffffff;
+        }
+        .footer-link {
+            color: #b0b0b0 !important;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .footer-link:hover {
+            color: #ffc107 !important;
+            padding-left: 4px;
+        }
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            background-color: #2b3035;
+            color: #ffffff !important;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .social-btn:hover {
+            background-color: #ffc107;
+            color: #000000 !important;
+            transform: scale(1.1);
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .hero-banner {
+                min-height: 55vh;
+            }
+            .hero-banner h1 {
+                font-size: 2rem;
+            }
+            .search-form {
+                margin: 15px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY NAVIGATION BAR -->
+    <header class="sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm py-3">
+            <div class="container">
+                <!-- Brand Logo -->
+                <a class="navbar-brand fw-bold text-warning fs-3" href="#">
+                    <i class="fa-solid fa-store me-2"></i>ShopNest
+                </a>
+
+                <!-- Mobile Toggle Button -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Navigation Links & Search & Cart -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-3">
+                        <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#categories">Categories</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#products">Products</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    </ul>
+
+                    <!-- Search Bar Placeholder -->
+                    <form class="d-flex me-lg-3 search-form" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search products..." aria-label="Search">
+                        <button class="btn btn-outline-warning" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </form>
+
+                    <!-- Cart Icon -->
+                    <div class="cart-icon-container mt-2 mt-lg-0">
+                        <a href="#" class="text-white text-decoration-none position-relative d-inline-block">
+                            <i class="fa-solid fa-cart-shopping fs-4 text-warning"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                3
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main>
+
+        <!-- HERO BANNER SECTION -->
+        <section class="hero-banner text-white text-center d-flex align-items-center justify-content-center">
+            <div class="container py-5">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <h1 class="display-4 fw-bold mb-3">Discover Quality Products at Unbeatable Prices</h1>
+                        <p class="lead mb-4">Shop the latest trends in electronics, fashion, books, and lifestyle items with fast shipping and secure checkout.</p>
+                        <div class="d-flex justify-content-center gap-3">
+                            <a href="#products" class="btn btn-warning btn-lg fw-bold px-4 py-2">Shop Now</a>
+                            <a href="#categories" class="btn btn-outline-light btn-lg fw-bold px-4 py-2">View Deals</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CATEGORY SHOWCASE SECTION -->
+        <section id="categories" class="py-5 bg-light">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="fw-bold">Shop by Category</h2>
+                    <p class="text-muted">Explore our curated collections tailored to your lifestyle</p>
+                </div>
+                <div class="row g-4">
+                    <!-- Category 1: Electronics -->
+                    <div class="col-lg-3 col-md-6">
+                        <article>
+                            <a href="#products" class="category-box cat-electronics">
+                                <div class="category-overlay"></div>
+                                <div class="category-content">
+                                    <h3 class="h4 fw-bold mb-1"><i class="fa-solid fa-laptop me-2"></i>Electronics</h3>
+                                    <p class="small mb-0 opacity-75">Gadgets & Devices</p>
+                                </div>
+                            </a>
+                        </article>
+                    </div>
+                    <!-- Category 2: Clothing -->
+                    <div class="col-lg-3 col-md-6">
+                        <article>
+                            <a href="#products" class="category-box cat-clothing">
+                                <div class="category-overlay"></div>
+                                <div class="category-content">
+                                    <h3 class="h4 fw-bold mb-1"><i class="fa-solid fa-shirt me-2"></i>Clothing</h3>
+                                    <p class="small mb-0 opacity-75">Apparel & Fashion</p>
+                                </div>
+                            </a>
+                        </article>
+                    </div>
+                    <!-- Category 3: Footwear -->
+                    <div class="col-lg-3 col-md-6">
+                        <article>
+                            <a href="#products" class="category-box cat-footwear">
+                                <div class="category-overlay"></div>
+                                <div class="category-content">
+                                    <h3 class="h4 fw-bold mb-1"><i class="fa-solid fa-shoe-prints me-2"></i>Footwear</h3>
+                                    <p class="small mb-0 opacity-75">Sneakers & Boots</p>
+                                </div>
+                            </a>
+                        </article>
+                    </div>
+                    <!-- Category 4: Books -->
+                    <div class="col-lg-3 col-md-6">
+                        <article>
+                            <a href="#products" class="category-box cat-books">
+                                <div class="category-overlay"></div>
+                                <div class="category-content">
+                                    <h3 class="h4 fw-bold mb-1"><i class="fa-solid fa-book me-2"></i>Books</h3>
+                                    <p class="small mb-0 opacity-75">Bestsellers & More</p>
+                                </div>
+                            </a>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURED PRODUCTS SECTION -->
+        <section id="products" class="py-5">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="fw-bold">Featured Products</h2>
+                    <p class="text-muted">Handpicked top-rated items selected just for you</p>
+                </div>
+                <div class="row g-4">
+                    
+                  <!-- Product Card 1 -->
+                    <div class="col-lg-4 col-md-6">
+                        <article class="card h-100 shadow-sm product-card border-0">
+                            <div class="badge bg-danger position-absolute m-3">Sale</div>
+                            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&q=80" class="card-img-top product-img" alt="Wireless Headphones">
+                            <div class="card-body d-flex flex-column">
+                                <h3 class="h5 card-title fw-bold">Wireless Noise-Canceling Headphones</h3>
+                                <div class="rating text-warning mb-2">
+                                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                                    <span class="text-muted small ms-1">(4.5)</span>
+                                </div>
+                                <div class="pricing mb-3">
+                                    <span class="text-muted text-decoration-line-through me-2">$199.99</span>
+                                    <span class="fs-5 fw-bold text-success">$129.99</span>
+                                </div>
+                                <button class="btn btn-dark mt-auto w-100 add-to-cart-btn"><i class="fa-solid fa-cart-plus me-2"></i>Add to Cart</button>
+                            </div>
+                        </article>
+                    </div>
+
+                    <!-- Product Card 2 -->
+                    <div class="col-lg-4 col-md-6">
+                        <article class="card h-100 shadow-sm product-card border-0">
+                            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&q=80" class="card-img-top product-img" alt="Smartwatch Series 5">
+                            <div class="card-body d-flex flex-column">
+                                <h3 class="h5 card-title fw-bold">Minimalist Smartwatch Series</h3>
+                                <div class="rating text-warning mb-2">
+                                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                                    <span class="text-muted small ms-1">(4.0)</span>
+                                </div>
+                                <div class="pricing mb-3">
+                                    <span class="text-muted text-decoration-line-through me-2">$149.99</span>
+                                    <span class="fs-5 fw-bold text-success">$99.99</span>
+                                </div>
+                                <button class="btn btn-dark mt-auto w-100 add-to-cart-btn"><i class="fa-solid fa-cart-plus me-2"></i>Add to Cart</button>
+                            </div>
+                        </article>
+                    </div>
+
+                    <!-- Product Card 3 -->
+                    <div class="col-lg-4 col-md-6">
+                        <article class="card h-100 shadow-sm product-card border-0">
+                            <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=500&q=80" class="card-img-top product-img" alt="Vintage Camera">
+                            <div class="card-body d-flex flex-column">
+                                <h3 class="h5 card-title fw-bold">Classic Retro DSLR Camera</h3>
+                                <div class="rating text-warning mb-2">
+                                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                                    <span class="text-muted small ms-1">(4.6)</span>
+                                </div>
+                                <div class="pricing mb-3">
+                                    <span class="text-muted text-decoration-line-through me-2">$450.00</span>
+                                    <span class="fs-5 fw-bold text-success">$349.00</span>
+                                </div>
+                                <button class="btn btn-dark mt-auto w-100 add-to-cart-btn"><i class="fa-solid fa-cart-plus me-2"></i>Add to Cart</button>
+                            </div>
+                        </article>
+                    </div>
+
+                    <!-- Product Card 4 -->
+                    <div class="col-lg-4 col-md-6">
+                        <article class="card h-100 shadow-sm product-card border-0">
+                            <img src="https://static.vecteezy.com/system/resources/thumbnails/039/594/215/small_2x/ai-generated-fashion-boutique-showcases-elegant-clothing-collection-in-modern-domestic-room-generated-by-ai-free-photo.jpg" class="card-img-top product-img" alt="Smartwatch Series 5">
+                            <div class="card-body d-flex flex-column">
+                                <h3 class="h5 card-title fw-bold">Semiformal Women Wedding Dress</h3>
+                                <div class="rating text-warning mb-2">
+                                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                                    <span class="text-muted small ms-1">(4.0)</span>
+                                </div>
+                                <div class="pricing mb-3">
+                                    <span class="text-muted text-decoration-line-through me-2">$449.99</span>
+                                    <span class="fs-5 fw-bold text-success">$249.99</span>
+                                </div>
+                                <button class="btn btn-dark mt-auto w-100 add-to-cart-btn"><i class="fa-solid fa-cart-plus me-2"></i>Add to Cart</button>
+                            </div>
+                        </article>
+                    </div>
+                     <!-- Product Card 5 -->
+                    <div class="col-lg-4 col-md-6">
+                        <article class="card h-100 shadow-sm product-card border-0">
+                            <img src="https://cdn.pixabay.com/photo/2023/05/06/01/33/t-shirt-7973394_640.jpg" alt="Smartwatch Series 5">
+                            <div class="card-body d-flex flex-column">
+                                <h3 class="h5 card-title fw-bold">A vibrant Red Plain TShirt</h3>
+                                <div class="rating text-warning mb-2">
+                                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                                    <span class="text-muted small ms-1">(4.0)</span>
+                                </div>
+                                <div class="pricing mb-3">
+                                    <span class="text-muted text-decoration-line-through me-2">$140.00</span>
+                                    <span class="fs-5 fw-bold text-success">$69.99</span>
+                                </div>
+                                <button class="btn btn-dark mt-auto w-100 add-to-cart-btn"><i class="fa-solid fa-cart-plus me-2"></i>Add to Cart</button>
+                            </div>
+                        </article>
+                    </div>
+
+                    <!-- Product Card 6 -->
+                    <div class="col-lg-4 col-md-6">
+                        <article class="card h-100 shadow-sm product-card border-0">
+                            <div class="badge bg-primary position-absolute m-3">New</div>
+                            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=80" class="card-img-top product-img" alt="Running Shoes">
+                            <div class="card-body d-flex flex-column">
+                                <h3 class="h5 card-title fw-bold">Pro Athletic Running Shoes</h3>
+                                <div class="rating text-warning mb-2">
+                                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                    <span class="text-muted small ms-1">(5.0)</span>
+                                </div>
+                                <div class="pricing mb-3">
+                                    <span class="text-muted text-decoration-line-through me-2">$120.00</span>
+                                    <span class="fs-5 fw-bold text-success">$89.50</span>
+                                </div>
+                                <button class="btn btn-dark mt-auto w-100 add-to-cart-btn"><i class="fa-solid fa-cart-plus me-2"></i>Add to Cart</button>
+                            </div>
+                        </article>
+                    </div>
+
+                    
+
+                    <!-- Product Card 7 -->
+                    <div class="col-lg-4 col-md-6">
+                        <article class="card h-100 shadow-sm product-card border-0">
+                            <img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=500&q=80" class="card-img-top product-img" alt="Casual Sneakers">
+                            <div class="card-body d-flex flex-column">
+                                <h3 class="h5 card-title fw-bold">Urban Streetwear Casual Sneakers</h3>
+                                <div class="rating text-warning mb-2">
+                                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                                    <span class="text-muted small ms-1">(4.2)</span>
+                                </div>
+                                <div class="pricing mb-3">
+                                    <span class="text-muted text-decoration-line-through me-2">$90.00</span>
+                                    <span class="fs-5 fw-bold text-success">$65.00</span>
+                                </div>
+                                <button class="btn btn-dark mt-auto w-100 add-to-cart-btn"><i class="fa-solid fa-cart-plus me-2"></i>Add to Cart</button>
+                            </div>
+                        </article>
+                    </div>
+
+                    <!-- Product Card 8 -->
+                    <div class="col-lg-4 col-md-6">
+                        <article class="card h-100 shadow-sm product-card border-0">
+                            <div class="badge bg-primary position-absolute m-3">New</div>
+                            <img src="https://wallpapercave.com/wp/wp2896922.jpg" alt="Running shoes">
+                            <div class="card-body d-flex flex-column">
+                                <h3 class="h5 card-title fw-bold">Best Nike Running shoes</h3>
+                                <div class="rating text-warning mb-2">
+                                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                    <span class="text-muted small ms-1">(5.0)</span>
+                                </div>
+                                <div class="pricing mb-3">
+                                    <span class="text-muted text-decoration-line-through me-2">$150.00</span>
+                                    <span class="fs-5 fw-bold text-success">$92.00</span>
+                                </div>
+                                <button class="btn btn-dark mt-auto w-100 add-to-cart-btn"><i class="fa-solid fa-cart-plus me-2"></i>Add to Cart</button>
+                            </div>
+                        </article>
+                    </div>
+
+                    <!-- Product Card 9 -->
+                    <div class="col-lg-4 col-md-6">
+                        <article class="card h-100 shadow-sm product-card border-0">
+                            <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&q=80" class="card-img-top product-img" alt="Bestseller Book Collection">
+                            <div class="card-body d-flex flex-column">
+                                <h3 class="h5 card-title fw-bold">Bestseller Hardcover Fiction Set</h3>
+                                <div class="rating text-warning mb-2">
+                                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                    <span class="text-muted small ms-1">(4.9)</span>
+                                </div>
+                                <div class="pricing mb-3">
+                                    <span class="text-muted text-decoration-line-through me-2">$60.00</span>
+                                    <span class="fs-5 fw-bold text-success">$39.99</span>
+                                </div>
+                                <button class="btn btn-dark mt-auto w-100 add-to-cart-btn"><i class="fa-solid fa-cart-plus me-2"></i>Add to Cart</button>
+                            </div>
+                        </article>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- NEWSLETTER SIGNUP SECTION -->
+        <section class="newsletter-section py-5 bg-warning text-dark">
+            <div class="container text-center">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
+                        <h2 class="fw-bold mb-3">Subscribe to Our Newsletter</h2>
+                        <p class="mb-4">Get the latest updates on new arrivals, exclusive discounts, and special promotional offers directly in your inbox.</p>
+                        <form class="newsletter-form d-flex gap-2">
+                            <input type="email" class="form-control form-control-lg" placeholder="Enter your email address..." required>
+                            <button type="submit" class="btn btn-dark btn-lg px-4">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- MULTI-COLUMN FOOTER -->
+    <footer class="pt-5 pb-4">
+        <div class="container">
+            <div class="row g-4 mb-4">
+                
+                <!-- Column 1: About -->
+                <div class="col-lg-3 col-md-6" id="about">
+                    <h4 class="fw-bold text-warning mb-3"><i class="fa-solid fa-store me-2"></i>ShopNest</h4>
+                    <p class="small text-secondary">ShopNest is your reliable multi-category e-commerce platform dedicated to offering high-end products with effortless customer service and satisfaction.</p>
+                </div>
+
+                <!-- Column 2: Quick Links -->
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="fw-bold mb-3">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="footer-link small"><i class="fa-solid fa-chevron-right me-1 text-warning"></i> Home</a></li>
+                        <li class="mb-2"><a href="#categories" class="footer-link small"><i class="fa-solid fa-chevron-right me-1 text-warning"></i> Categories</a></li>
+                        <li class="mb-2"><a href="#products" class="footer-link small"><i class="fa-solid fa-chevron-right me-1 text-warning"></i> Featured Products</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link small"><i class="fa-solid fa-chevron-right me-1 text-warning"></i> Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Contact Info -->
+                <div class="col-lg-3 col-md-6" id="contact">
+                    <h5 class="fw-bold mb-3">Contact Us</h5>
+                    <ul class="list-unstyled small text-secondary">
+                        <li class="mb-3 d-flex align-items-center"><i class="fa-solid fa-location-dot me-3 text-warning fs-5"></i>123 Commerce St, Market City, Dindigul</li>
+                        <li class="mb-3 d-flex align-items-center"><i class="fa-solid fa-phone me-3 text-warning fs-5"></i>7708539262</li>
+                        <li class="mb-3 d-flex align-items-center"><i class="fa-solid fa-envelope me-3 text-warning fs-5"></i>Aishwarya@shopnest.com</li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Social Media -->
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="fw-bold mb-3">Follow Us</h5>
+                    <p class="small text-secondary mb-3">Connect with our community across social platforms.</p>
+                    <div class="social-icons d-flex gap-2">
+                        <a href="#" class="social-btn" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-btn" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#" class="social-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-btn" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+            </div>
+            <hr class="border-secondary my-4">
+            <div class="text-center text-secondary small">
+                <p class="mb-0">&copy; 2026 ShopNest E-Commerce. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
